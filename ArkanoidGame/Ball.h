@@ -3,7 +3,7 @@
 #include "GameObject.h"
 #include "GameSettings.h"
 
-namespace ArkanoidGame
+namespace RoguelikeGame
 {
     class Ball : public GameObject
     {

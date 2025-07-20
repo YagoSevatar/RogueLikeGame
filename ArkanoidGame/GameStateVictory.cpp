@@ -4,7 +4,7 @@
 #include "Text.h"
 #include <assert.h>
 
-namespace ArkanoidGame
+namespace RoguelikeGame
 {
     void GameStateVictoryData::Init(int score)
     {

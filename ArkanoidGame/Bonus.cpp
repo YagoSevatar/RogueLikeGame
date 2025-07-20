@@ -2,7 +2,7 @@
 #include "Platform.h"
 #include "GameSettings.h"
 
-namespace ArkanoidGame
+namespace RoguelikeGame
 {
     Bonus::Bonus(Type type, const sf::Vector2f& position) :
         type(type)

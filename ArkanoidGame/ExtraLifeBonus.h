@@ -2,7 +2,7 @@
 #include "Bonus.h"
 #include "Game.h"
 
-namespace ArkanoidGame
+namespace RoguelikeGame
 {
     class ExtraLifeBonus : public Bonus
     {

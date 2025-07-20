@@ -7,7 +7,7 @@
 #include "GameStateVictory.h"
 #include <cassert>
 
-namespace ArkanoidGame
+namespace RoguelikeGame
 {
     GameState::GameState(GameStateType type, bool isExclusivelyVisible)
         : type(type), isExclusivelyVisible(isExclusivelyVisible)

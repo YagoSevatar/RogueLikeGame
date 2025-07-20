@@ -1,7 +1,7 @@
 #include "ExtraLifeBonus.h"
 #include "Application.h"
 
-namespace ArkanoidGame
+namespace RoguelikeGame
 {
     ExtraLifeBonus::ExtraLifeBonus(const sf::Vector2f& position)
         : Bonus(Type::ExtraLife, position)

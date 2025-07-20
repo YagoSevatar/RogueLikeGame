@@ -2,7 +2,7 @@
 #include "Bonus.h"
 #include "Platform.h"
 
-namespace ArkanoidGame {
+namespace RoguelikeGame {
     class PlatformShrinkBonus : public Bonus {
     public:
         PlatformShrinkBonus(const sf::Vector2f& position, Platform& platform);
