@@ -3,7 +3,7 @@
 #include "GameSettings.h"
 #include <SFML/Graphics.hpp>
 
-namespace ArkanoidGame
+namespace RoguelikeGame
 {
     class Platform; 
 

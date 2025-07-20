@@ -1,7 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
-namespace ArkanoidGame {
+namespace RoguelikeGame {
     class GameObject {
     public:
         virtual ~GameObject() = default;

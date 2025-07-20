@@ -10,7 +10,7 @@ namespace
     const std::string TEXTURE_ID = "ball";
 }
 
-namespace ArkanoidGame
+namespace RoguelikeGame
 {
     void Ball::Init()
     {

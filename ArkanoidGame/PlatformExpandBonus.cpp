@@ -1,6 +1,6 @@
 #include "PlatformExpandBonus.h"
 
-namespace ArkanoidGame {
+namespace RoguelikeGame {
     PlatformExpandBonus::PlatformExpandBonus(const sf::Vector2f& position, Platform& platform)
         : Bonus(Type::PlatformExpand, position), m_platform(platform) {
     }

@@ -11,7 +11,7 @@
 #include "GameState.h"
 #include <string>
 
-namespace ArkanoidGame
+namespace RoguelikeGame
 {
 
 	class Game;

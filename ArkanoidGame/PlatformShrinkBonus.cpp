@@ -1,6 +1,6 @@
 #include "PlatformShrinkBonus.h"
 
-namespace ArkanoidGame {
+namespace RoguelikeGame {
     PlatformShrinkBonus::PlatformShrinkBonus(const sf::Vector2f& position, Platform& platform)
         : Bonus(Type::PlatformShrink, position), m_platform(platform) {
     }

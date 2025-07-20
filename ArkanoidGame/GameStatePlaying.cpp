@@ -13,7 +13,7 @@
 #include "ExtraLifeBonus.h"
 #include "cassert"
 
-namespace ArkanoidGame
+namespace RoguelikeGame
 {
     void GameStatePlayingData::Init()
     {

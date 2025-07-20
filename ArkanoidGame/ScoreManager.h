@@ -2,7 +2,7 @@
 #include <vector>
 #include "IScoreObserver.h"
 
-namespace ArkanoidGame {
+namespace RoguelikeGame {
     class ScoreManager {
     public:
         void AddObserver(IScoreObserver* observer);

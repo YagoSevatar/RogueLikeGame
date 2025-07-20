@@ -6,7 +6,7 @@
 #include <unordered_map>
 #include "ScoreManager.h"
 
-namespace ArkanoidGame
+namespace RoguelikeGame
 {
 	enum class GameOptions : std::uint8_t
 	{

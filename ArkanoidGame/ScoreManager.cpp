@@ -1,7 +1,7 @@
 #include "ScoreManager.h"
 #include <algorithm>
 
-namespace ArkanoidGame {
+namespace RoguelikeGame {
     void ScoreManager::AddObserver(IScoreObserver* observer) {
         observers.push_back(observer);
     }
