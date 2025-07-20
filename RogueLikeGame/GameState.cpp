@@ -2,7 +2,7 @@
 #include "GameStateData.h"
 #include "GameStatePlaying.h"
 #include "GameStateGameOver.h"
-#include "GameStateGameWin.h"
+
 #include "GameStatePauseMenu.h"
 #include "GameStateMainMenu.h"
 #include "GameStateRecords.h"
@@ -31,11 +31,6 @@ namespace Roguelike
 		case GameStateType::GameOver:
 		{
 			data = std::make_shared<GameStateGameOverData>();
-			break;
-		}
-		case GameStateType::GameWin:
-		{
-			data = std::make_shared<GameStateGameWinData>();
 			break;
 		}
 		case GameStateType::ExitDialog:

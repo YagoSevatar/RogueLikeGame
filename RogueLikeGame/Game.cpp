@@ -189,17 +189,17 @@ namespace Roguelike
 	{
 		SwitchStateTo(GameStateType::Playing);
 	}
-	
+
 	void Game::PauseGame()
 	{
 		PushState(GameStateType::ExitDialog, false);
 	}
-	
+
 	void Game::WinGame()
 	{
 		PushState(GameStateType::GameWin, false);
 	}
-	
+
 	void Game::LooseGame()
 	{
 		PushState(GameStateType::GameOver, false);
@@ -225,10 +225,5 @@ namespace Roguelike
 		}
 	}
 
-	void Game::LoadNextLevel()
-	{
-		assert(stateStack.back().GetType() == GameStateType::Playing);
-		auto playingData = (stateStack.back().GetData<GameStatePlayingData>());
-		playingData->LoadNextLevel();
-	}
+
 }

@@ -22,12 +22,14 @@ namespace EngineZ
 		sf::Texture* GetTextureMapElementCopy(const std::string& name, int elementIndex) const;
 		int GetTextureMapElementsCount(const std::string& name) const;
 		void DeleteSharedTextureMap(const std::string& name);
-
+		void LoadFont(const std::string& name, const std::string& path);
+		const sf::Font* GetFontShared(const std::string& name) const;
 		void Clear();
 
 	private:
 		std::map<std::string, sf::Texture*> textures;
 		std::map<std::string, std::vector<sf::Texture*>> textureMaps;
+		std::map<std::string, std::unique_ptr<sf::Font>> fonts;
 
 		ResourceSystem() {}
 		~ResourceSystem() {}

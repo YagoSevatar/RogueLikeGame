@@ -1,21 +1,48 @@
 ﻿#include <SFML/Graphics.hpp>
-#include "Player.h"
-#include "Engine.h"
-#include "ResourceSystem.h"
-#include "DeveloperLevel.h"
-
-using namespace Roguelike;
+#include <iostream> 
 
 int main()
 {
-	EngineZ::RenderSystem::Instance()->SetMainWindow(new sf::RenderWindow(sf::VideoMode(1280, 720), "Roguelike"));
+   
+    sf::RenderWindow window(sf::VideoMode(1280, 720), "RogueLike Game");
+    
+   
+    sf::Font font;
+    font.loadFromFile("Resources/Fonts/Roboto-Regular.ttf");
+   
 
-	EngineZ::ResourceSystem::Instance()->LoadTexture("ball", "Resources/Textures/ball.png");
+    sf::Text toBeDoneText;
+    toBeDoneText.setFont(font);
+    toBeDoneText.setString("TO BE DONE...");
+    toBeDoneText.setCharacterSize(48);
+    toBeDoneText.setFillColor(sf::Color::White);
+    sf::FloatRect bounds = toBeDoneText.getLocalBounds();
+    toBeDoneText.setOrigin(bounds.width/2, bounds.height/2);
+    toBeDoneText.setPosition(640, 360 - 30); 
 
-	auto developerLevel = std::make_shared<DeveloperLevel>();
-	developerLevel->Start();
+    sf::Text hintText("Press Esc to exit", font, 24);
+    hintText.setFillColor(sf::Color::White);
+    hintText.setOrigin(hintText.getLocalBounds().width/2, hintText.getLocalBounds().height/2);
+    hintText.setPosition(640, 360 + 30);
 
-	EngineZ::Engine::Instance()->Run();
+    std::cout << "Entering main loop..." << std::endl;
+    while (window.isOpen())
+    {
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed || 
+               (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape))
+            {
+                window.close();
+            }
+        }
 
-	return 0;
+        window.clear(sf::Color::Black);
+        window.draw(toBeDoneText);
+        window.draw(hintText);
+        window.display();
+    }
+
+    return 0;
 }

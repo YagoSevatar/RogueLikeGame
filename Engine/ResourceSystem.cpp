@@ -147,4 +147,20 @@ namespace EngineZ
 			DeleteSharedTextureMap(key);
 		}
 	}
+	void ResourceSystem::LoadFont(const std::string& name, const std::string& path)
+	{
+		if (fonts.find(name) != fonts.end()) return;
+
+		auto newFont = std::make_unique<sf::Font>();
+		if (newFont->loadFromFile(path))
+		{
+			fonts.emplace(name, std::move(newFont));
+		}
+	}
+
+	const sf::Font* ResourceSystem::GetFontShared(const std::string& name) const
+	{
+		auto it = fonts.find(name);
+		return it != fonts.end() ? it->second.get() : nullptr;
+	}
 }
