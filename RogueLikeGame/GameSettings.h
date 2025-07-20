@@ -45,7 +45,7 @@ namespace Roguelike
 		const int MAX_RECORDS_TABLE_SIZE = 5;
 		const char* PLAYER_NAME = "Player";
 
-		const std::string GAME_NAME = "ArkanoidGame";
+		const std::string GAME_NAME = "RogueLike";
 		const float BREAK_DELAY = 1.f;
 		const float BONUS_DURATION = 30.f;
 		const int BONUS_PROPABILITY_PERCENT = 5;
