@@ -3,7 +3,7 @@
 
 #include "SFML/Graphics.hpp"
 
-namespace Engine
+namespace EngineZ
 {
 	class Engine
 	{

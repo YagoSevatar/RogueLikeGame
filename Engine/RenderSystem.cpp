@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "RenderSystem.h"
 
-namespace Engine
+namespace EngineZ
 {
 	RenderSystem* RenderSystem::Instance()
 	{

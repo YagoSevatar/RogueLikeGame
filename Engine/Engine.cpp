@@ -4,7 +4,7 @@
 #include "GameWorld.h"
 #include "RenderSystem.h"
 
-namespace Engine
+namespace EngineZ
 {
 	Engine* Engine::Instance()
 	{

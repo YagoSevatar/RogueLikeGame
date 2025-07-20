@@ -6,7 +6,7 @@
 #include "GameObject.h"
 #include "Vector.h"
 
-namespace Engine
+namespace EngineZ
 {
 	class TransformComponent : public Component
 	{

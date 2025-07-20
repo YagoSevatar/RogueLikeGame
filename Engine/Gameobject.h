@@ -3,7 +3,7 @@
 #include "TransformComponent.h"
 #include <iostream>
 
-namespace Engine
+namespace EngineZ
 {
 	class TransformComponent;
 

@@ -3,7 +3,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include "TransformComponent.h"
 
-namespace Engine
+namespace EngineZ
 {
 	class CameraComponent : public Component
 	{

@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "GameWorld.h"
 
-namespace Engine
+namespace EngineZ
 {
 	GameWorld* GameWorld::Instance()
 	{

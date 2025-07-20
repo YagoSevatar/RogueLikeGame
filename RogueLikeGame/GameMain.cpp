@@ -1,7 +1,4 @@
-﻿// ©2023, XYZ School. All rights reserved.
-// Authored by Aleksandr Rybalka (polterageist@gmail.com)
-
-#include <SFML/Graphics.hpp>
+﻿#include <SFML/Graphics.hpp>
 #include "Player.h"
 #include "Engine.h"
 #include "ResourceSystem.h"
@@ -11,14 +8,14 @@ using namespace Roguelike;
 
 int main()
 {
-	XYZEngine::RenderSystem::Instance()->SetMainWindow(new sf::RenderWindow(sf::VideoMode(1280, 720), "XYZRoguelike"));
+	EngineZ::RenderSystem::Instance()->SetMainWindow(new sf::RenderWindow(sf::VideoMode(1280, 720), "Roguelike"));
 
-	XYZEngine::ResourceSystem::Instance()->LoadTexture("ball", "Resources/Textures/ball.png");
+	EngineZ::ResourceSystem::Instance()->LoadTexture("ball", "Resources/Textures/ball.png");
 
 	auto developerLevel = std::make_shared<DeveloperLevel>();
 	developerLevel->Start();
 
-	XYZEngine::Engine::Instance()->Run();
+	EngineZ::Engine::Instance()->Run();
 
 	return 0;
 }

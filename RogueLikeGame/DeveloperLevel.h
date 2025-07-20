@@ -5,7 +5,7 @@
 #include "Scene.h"
 #include "Player.h"
 
-using namespace XYZEngine;
+using namespace EngineZ;
 
 namespace Roguelike
 {

@@ -13,8 +13,8 @@ namespace Roguelike
 	{
 	public:
 		Player();
-		XYZEngine::GameObject* GetGameObject();
+		EngineZ::GameObject* GetGameObject();
 	private:
-		XYZEngine::GameObject* gameObject;
+		EngineZ::GameObject* gameObject;
 	};
 }

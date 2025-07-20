@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "InputComponent.h"
 
-namespace Engine
+namespace EngineZ
 {
 	InputComponent::InputComponent(GameObject* gameObject) : Component(gameObject) {}
 

@@ -1,6 +1,6 @@
 #include "DeveloperLevel.h"
 
-using namespace XYZEngine;
+using namespace EngineZ;
 
 namespace Roguelike
 {
@@ -13,8 +13,8 @@ namespace Roguelike
 		Stop();
 		Start();
 	}
-	void DeveloperLevel::Stop() 
+	void DeveloperLevel::Stop()
 	{
 		GameWorld::Instance()->Clear();
 	}
-}
+	}
