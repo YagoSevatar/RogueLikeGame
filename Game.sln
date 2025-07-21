@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33403.182
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SFMLTemplate", "SFMLTemplate\SFMLTemplate.vcxproj", "{AE2B0BAC-971E-4D90-8222-6E7554C835EE}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SFML", "SFML\SFML.vcxproj", "{0D9DFFE7-5BF2-448D-8639-0FE0BBB8230A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ArkanoidGame", "ArkanoidGame\ArkanoidGame.vcxproj", "{C3A962DD-12D8-4E72-99F3-C940EF572498}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "Engine\Engine.vcxproj", "{0C75DAC1-D24E-412B-8A17-E52A90B5FD49}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EngineTest", "EngineTest\EngineTest.vcxproj", "{399F3EB0-AA37-42F8-9715-E77D2D420E73}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Roguelike", "RogueLikeGame\Roguelike.vcxproj", "{C3A962DD-12D8-4E72-99F3-C940EF572498}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,22 +19,30 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AE2B0BAC-971E-4D90-8222-6E7554C835EE}.Debug|x64.ActiveCfg = Debug|x64
-		{AE2B0BAC-971E-4D90-8222-6E7554C835EE}.Debug|x64.Build.0 = Debug|x64
-		{AE2B0BAC-971E-4D90-8222-6E7554C835EE}.Debug|x86.ActiveCfg = Debug|Win32
-		{AE2B0BAC-971E-4D90-8222-6E7554C835EE}.Debug|x86.Build.0 = Debug|Win32
-		{AE2B0BAC-971E-4D90-8222-6E7554C835EE}.Release|x64.ActiveCfg = Release|x64
-		{AE2B0BAC-971E-4D90-8222-6E7554C835EE}.Release|x64.Build.0 = Release|x64
-		{AE2B0BAC-971E-4D90-8222-6E7554C835EE}.Release|x86.ActiveCfg = Release|Win32
-		{AE2B0BAC-971E-4D90-8222-6E7554C835EE}.Release|x86.Build.0 = Release|Win32
 		{0D9DFFE7-5BF2-448D-8639-0FE0BBB8230A}.Debug|x64.ActiveCfg = Debug|x64
 		{0D9DFFE7-5BF2-448D-8639-0FE0BBB8230A}.Debug|x64.Build.0 = Debug|x64
 		{0D9DFFE7-5BF2-448D-8639-0FE0BBB8230A}.Debug|x86.ActiveCfg = Debug|Win32
 		{0D9DFFE7-5BF2-448D-8639-0FE0BBB8230A}.Debug|x86.Build.0 = Debug|Win32
-		{0D9DFFE7-5BF2-448D-8639-0FE0BBB8230A}.Release|x64.ActiveCfg = Release|x64
-		{0D9DFFE7-5BF2-448D-8639-0FE0BBB8230A}.Release|x64.Build.0 = Release|x64
+		{0D9DFFE7-5BF2-448D-8639-0FE0BBB8230A}.Release|x64.ActiveCfg = Debug|x64
+		{0D9DFFE7-5BF2-448D-8639-0FE0BBB8230A}.Release|x64.Build.0 = Debug|x64
 		{0D9DFFE7-5BF2-448D-8639-0FE0BBB8230A}.Release|x86.ActiveCfg = Release|Win32
 		{0D9DFFE7-5BF2-448D-8639-0FE0BBB8230A}.Release|x86.Build.0 = Release|Win32
+		{0C75DAC1-D24E-412B-8A17-E52A90B5FD49}.Debug|x64.ActiveCfg = Debug|x64
+		{0C75DAC1-D24E-412B-8A17-E52A90B5FD49}.Debug|x64.Build.0 = Debug|x64
+		{0C75DAC1-D24E-412B-8A17-E52A90B5FD49}.Debug|x86.ActiveCfg = Debug|Win32
+		{0C75DAC1-D24E-412B-8A17-E52A90B5FD49}.Debug|x86.Build.0 = Debug|Win32
+		{0C75DAC1-D24E-412B-8A17-E52A90B5FD49}.Release|x64.ActiveCfg = Debug|x64
+		{0C75DAC1-D24E-412B-8A17-E52A90B5FD49}.Release|x64.Build.0 = Debug|x64
+		{0C75DAC1-D24E-412B-8A17-E52A90B5FD49}.Release|x86.ActiveCfg = Release|Win32
+		{0C75DAC1-D24E-412B-8A17-E52A90B5FD49}.Release|x86.Build.0 = Release|Win32
+		{399F3EB0-AA37-42F8-9715-E77D2D420E73}.Debug|x64.ActiveCfg = Debug|x64
+		{399F3EB0-AA37-42F8-9715-E77D2D420E73}.Debug|x64.Build.0 = Debug|x64
+		{399F3EB0-AA37-42F8-9715-E77D2D420E73}.Debug|x86.ActiveCfg = Debug|Win32
+		{399F3EB0-AA37-42F8-9715-E77D2D420E73}.Debug|x86.Build.0 = Debug|Win32
+		{399F3EB0-AA37-42F8-9715-E77D2D420E73}.Release|x64.ActiveCfg = Release|x64
+		{399F3EB0-AA37-42F8-9715-E77D2D420E73}.Release|x64.Build.0 = Release|x64
+		{399F3EB0-AA37-42F8-9715-E77D2D420E73}.Release|x86.ActiveCfg = Release|Win32
+		{399F3EB0-AA37-42F8-9715-E77D2D420E73}.Release|x86.Build.0 = Release|Win32
 		{C3A962DD-12D8-4E72-99F3-C940EF572498}.Debug|x64.ActiveCfg = Debug|x64
 		{C3A962DD-12D8-4E72-99F3-C940EF572498}.Debug|x64.Build.0 = Debug|x64
 		{C3A962DD-12D8-4E72-99F3-C940EF572498}.Debug|x86.ActiveCfg = Debug|Win32
