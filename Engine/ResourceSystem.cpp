@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "ResourceSystem.h"
-
+#include "Logger.h"
 namespace EngineZ
 {
 	ResourceSystem* ResourceSystem::Instance()
@@ -13,15 +13,21 @@ namespace EngineZ
 	{
 		if (textures.find(name) != textures.end())
 		{
+			LOG_WARN("Texture " + name + " is already loaded");
 			return;
 		}
 
 		sf::Texture* newTexture = new sf::Texture();
-		if (newTexture->loadFromFile(sourcePath))
+		if (!newTexture->loadFromFile(sourcePath))
 		{
-			newTexture->setSmooth(isSmooth);
-			textures.emplace(name, newTexture);
+			LOG_ERROR("Failed to load texture from: " + sourcePath);
+			delete newTexture;
+			return;
 		}
+
+		newTexture->setSmooth(isSmooth);
+		textures.emplace(name, newTexture);
+		LOG_INFO("Texture loaded: " + name + " from " + sourcePath);
 	}
 	const sf::Texture* ResourceSystem::GetTextureShared(const std::string& name) const
 	{

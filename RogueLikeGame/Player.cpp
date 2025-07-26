@@ -1,25 +1,45 @@
 #include "Player.h"
-#include <ResourceSystem.h>
+#include "Enemy.h"
+#include "Logger.h"
+#include "HealthComponent.h"
 
 namespace Roguelike
 {
-	Player::Player()
-	{
-		gameObject = EngineZ::GameWorld::Instance()->CreateGameObject();
-		auto playerRenderer = gameObject->AddComponent<EngineZ::SpriteRendererComponent>();
+    Player::Player()
+    {
+        gameObject = EngineZ::GameWorld::Instance()->CreateGameObject("Player");
 
-		playerRenderer->SetTexture(*EngineZ::ResourceSystem::Instance()->GetTextureShared("ball"));
-		playerRenderer->SetPixelSize(32, 32);
+        auto playerRenderer = gameObject->AddComponent<EngineZ::SpriteRendererComponent>();
+        auto playerInput = gameObject->AddComponent<EngineZ::InputComponent>();
 
-		auto playerCamera = gameObject->AddComponent<EngineZ::CameraComponent>();
-		playerCamera->SetWindow(&EngineZ::RenderSystem::Instance()->GetMainWindow());
-		playerCamera->SetBaseResolution(1280, 720);
+        healthComponent = std::make_shared<EngineZ::HealthComponent>(gameObject, 100, 5);
+        // Изменено: передаем raw pointer вместо shared_ptr
+        gameObject->AddComponent(healthComponent.get());
 
-		auto playerInput = gameObject->AddComponent<EngineZ::InputComponent>();
-	}
+        LOG_INFO("Player created with health component");
+    }
 
-	EngineZ::GameObject* Player::GetGameObject()
-	{
-		return gameObject;
-	}
+    void Player::Attack(Enemy* enemy)
+    {
+        if (!enemy)
+        {
+            LOG_WARN("Attempt to attack null enemy");
+            return;
+        }
+
+        auto enemyHealth = enemy->GetHealthComponent();
+        if (enemyHealth->IsDead())
+        {
+            LOG_WARN("Attempt to attack already dead enemy");
+            return;
+        }
+
+        LOG_INFO("Player attacks enemy for " + std::to_string(attackDamage) + " damage");
+        enemyHealth->TakeDamage(attackDamage);
+    }
+
+    EngineZ::GameObject* Player::GetGameObject()
+    {
+        return gameObject;
+    }
 }

@@ -119,7 +119,11 @@ namespace EngineZ
 
 			return result;
 		}
-
+		template <typename T>
+		T* AddComponent(T* component) {
+			components.push_back(component);
+			return component;
+		}
 		friend class GameWorld;
 		friend class TransformComponent;
 

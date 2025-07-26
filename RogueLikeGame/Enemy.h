@@ -7,24 +7,22 @@
 #include "GameObject.h"
 #include "HealthComponent.h"
 #include <memory>
-
 // Forward declaration
-namespace Roguelike { class Enemy; }
+namespace Roguelike { class Player; }
 
 namespace Roguelike
 {
-    class Player
+    class Enemy
     {
     public:
-        Player();
+        Enemy();
         EngineZ::GameObject* GetGameObject();
-        void Attack(Enemy* enemy);
-        
         std::shared_ptr<EngineZ::HealthComponent> GetHealthComponent() { return healthComponent; }
+        void Attack(Player* player);
 
     private:
         EngineZ::GameObject* gameObject;
         std::shared_ptr<EngineZ::HealthComponent> healthComponent;
-        int attackDamage = 10;
+        int attackDamage = 5;
     };
 }

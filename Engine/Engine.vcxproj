@@ -158,9 +158,11 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="Gameobject.h" />
     <ClInclude Include="GameWorld.h" />
+    <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="IDelayedAction.h" />
     <ClInclude Include="InputComponent.h" />
     <ClInclude Include="IObserver.h" />
+    <ClInclude Include="Logger.h" />
     <ClInclude Include="Matrix2D.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PhysicsSystem.h" />
@@ -185,6 +187,7 @@
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Gameobject.cpp" />
     <ClCompile Include="GameWorld.cpp" />
+    <ClCompile Include="HealthComponent.cpp" />
     <ClCompile Include="InputComponent.cpp" />
     <ClCompile Include="Matrix2D.cpp" />
     <ClCompile Include="pch.cpp">

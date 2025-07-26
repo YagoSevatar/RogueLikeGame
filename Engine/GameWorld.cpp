@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "GameWorld.h"
+#include "Logger.h"
+
 
 namespace EngineZ
 {
@@ -50,10 +52,18 @@ namespace EngineZ
 	{
 		GameObject* newGameObject = new GameObject(name);
 		gameObjects.push_back(newGameObject);
+		LOG_INFO("GameObject created: " + name);
 		return newGameObject;
 	}
 	void GameWorld::DestroyGameObject(GameObject* gameObject)
 	{
+		if (!gameObject)
+		{
+			LOG_WARN("Attempt to destroy null GameObject");
+			return;
+		}
+
+		LOG_INFO("Destroying GameObject: " + gameObject->GetName());
 		markedToDestroyGameObjects.push_back(gameObject);
 	}
 	void GameWorld::Clear()
