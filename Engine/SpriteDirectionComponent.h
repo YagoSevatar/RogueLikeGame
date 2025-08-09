@@ -3,16 +3,17 @@
 #include "InputComponent.h"
 #include "SpriteRendererComponent.h"
 
-namespace EngineZ {
-class SpriteDirectionComponent : public Component {
-   public:
-    SpriteDirectionComponent(GameObject* gameObject);
+namespace EngineZ
+{
+	class SpriteDirectionComponent : public Component
+	{
+	public:
+		SpriteDirectionComponent(GameObject* gameObject);
 
-    void Update(float deltaTime) override;
-    void Render() override;
-
-   private:
-    InputComponent* input;
-    SpriteRendererComponent* spriteRenderer;
-};
-}  // namespace EngineZ
+		void Update(float deltaTime) override;
+		void Render() override;
+	private:
+		InputComponent* input;
+		SpriteRendererComponent* spriteRenderer;
+	};
+}

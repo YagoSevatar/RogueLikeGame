@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{0785589b-6e7e-4d86-9dbe-ce7aa50d6b3f}</ProjectGuid>
+    <ProjectGuid>{185E481C-2F4F-4CAE-A2C9-B493F41ADD47}</ProjectGuid>
     <RootNamespace>XYZEngine</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ProjectName>Engine</ProjectName>
@@ -72,7 +72,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)XYZRoguelike\$(Platform)\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)RogueLikeGame\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

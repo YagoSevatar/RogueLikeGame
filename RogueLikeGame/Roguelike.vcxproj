@@ -231,8 +231,8 @@
     <ClInclude Include="Wall.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Engine\XYZEngine.vcxproj">
-      <Project>{0785589b-6e7e-4d86-9dbe-ce7aa50d6b3f}</Project>
+    <ProjectReference Include="..\Engine\Engine.vcxproj">
+      <Project>{185e481c-2f4f-4cae-a2c9-b493f41add47}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
