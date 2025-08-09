@@ -1,2 +1,3 @@
-#include "pch.h"
 #include "Trigger.h"
+
+#include "pch.h"

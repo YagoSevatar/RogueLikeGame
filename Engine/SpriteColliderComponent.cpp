@@ -1,42 +1,37 @@
-#include "pch.h"
 #include "SpriteColliderComponent.h"
 
-namespace EngineZ
-{
-	SpriteColliderComponent::SpriteColliderComponent(GameObject* gameObject) : ColliderComponent(gameObject)
-	{
-		auto spriteRenderer = gameObject->GetComponent<SpriteRendererComponent>();
-		if (spriteRenderer == nullptr)
-		{
-			std::cout << "SpriteRenderer required to SpriteCollider." << std::endl;
-			gameObject->RemoveComponent(this);
-			return;
-		}
+#include "pch.h"
 
-		sprite = gameObject->GetComponent<SpriteRendererComponent>()->GetSprite();
-		PhysicsSystem::Instance()->Subscribe(this);
-	}
-	SpriteColliderComponent::~SpriteColliderComponent()
-	{
-		if (&bounds != nullptr)
-		{
-			std::destroy_at(&bounds);
-		}
-		PhysicsSystem::Instance()->Unsubscribe(this);
-	}
+namespace EngineZ {
+SpriteColliderComponent::SpriteColliderComponent(GameObject* gameObject)
+    : ColliderComponent(gameObject) {
+    auto spriteRenderer = gameObject->GetComponent<SpriteRendererComponent>();
+    if (spriteRenderer == nullptr) {
+        std::cout << "SpriteRenderer required to SpriteCollider." << std::endl;
+        gameObject->RemoveComponent(this);
+        return;
+    }
 
-	void SpriteColliderComponent::Update(float deltaTime)
-	{
-		bounds = sprite->getGlobalBounds();
-	}
-	void SpriteColliderComponent::Render()
-	{
-		sf::RectangleShape rectangle(sf::Vector2f(bounds.width, bounds.height));
-		rectangle.setPosition(bounds.left, bounds.top);
-		rectangle.setFillColor(sf::Color::Transparent);
-		rectangle.setOutlineColor(sf::Color::White);
-		rectangle.setOutlineThickness(4);
-
-		RenderSystem::Instance()->Render(rectangle);
-	}
+    sprite = gameObject->GetComponent<SpriteRendererComponent>()->GetSprite();
+    PhysicsSystem::Instance()->Subscribe(this);
 }
+SpriteColliderComponent::~SpriteColliderComponent() {
+    if (&bounds != nullptr) {
+        std::destroy_at(&bounds);
+    }
+    PhysicsSystem::Instance()->Unsubscribe(this);
+}
+
+void SpriteColliderComponent::Update(float deltaTime) {
+    bounds = sprite->getGlobalBounds();
+}
+void SpriteColliderComponent::Render() {
+    sf::RectangleShape rectangle(sf::Vector2f(bounds.width, bounds.height));
+    rectangle.setPosition(bounds.left, bounds.top);
+    rectangle.setFillColor(sf::Color::Transparent);
+    rectangle.setOutlineColor(sf::Color::White);
+    rectangle.setOutlineThickness(4);
+
+    RenderSystem::Instance()->Render(rectangle);
+}
+}  // namespace EngineZ
