@@ -1,29 +1,27 @@
 #pragma once
-#include "SFML/Graphics.hpp"
 #include "GameStateData.h"
+#include "SFML/Graphics.hpp"
 
-namespace Roguelike
-{
-	class Game;
+namespace Roguelike {
+class Game;
 
-	class GameStateGameOverData : public GameStateData
-	{
-	public:
-		void Init() override;
-		void HandleWindowEvent(const sf::Event& event) override;
-		void Update(float timeDelta) override;
-		void Draw(sf::RenderWindow& window) override;
+class GameStateGameOverData : public GameStateData {
+   public:
+    void Init() override;
+    void HandleWindowEvent(const sf::Event& event) override;
+    void Update(float timeDelta) override;
+    void Draw(sf::RenderWindow& window) override;
 
-	private:
-		// Resources
-		sf::Font font;
+   private:
+    // Resources
+    sf::Font font;
 
-		float timeSinceGameOver = 0.f;
+    float timeSinceGameOver = 0.f;
 
-		// UI data
-		sf::RectangleShape background;
-		sf::Text gameOverText;
-		sf::Text hintText;
-		std::vector<sf::Text> recordsTableTexts;
-	};
-}
+    // UI data
+    sf::RectangleShape background;
+    sf::Text gameOverText;
+    sf::Text hintText;
+    std::vector<sf::Text> recordsTableTexts;
+};
+}  // namespace Roguelike

@@ -1,44 +1,37 @@
 #include "Enemy.h"
-#include "Player.h"
+
+#include "CombatSystem.h"
+#include "GameWorld.h"
 #include "HealthComponent.h"
-#include "Logger.h"
+#include "ResourceSystem.h"
+#include "RigidbodyComponent.h"
+#include "SpriteColliderComponent.h"
+#include "SpriteRendererComponent.h"
+#include "TransformComponent.h"
 
-namespace Roguelike
-{
-    Enemy::Enemy()
-    {
-        gameObject = EngineZ::GameWorld::Instance()->CreateGameObject("Enemy");
+namespace Roguelike {
+Enemy::Enemy(const EngineZ::Vector2Df& position)
+    : gameObject(EngineZ::GameWorld::Instance()->CreateGameObject("Enemy")) {
+    auto transform = gameObject->GetComponent<EngineZ::TransformComponent>();
+    transform->SetWorldPosition(position);
 
-        auto enemyRenderer = gameObject->AddComponent<EngineZ::SpriteRendererComponent>();
+    auto renderer =
+        gameObject->AddComponent<EngineZ::SpriteRendererComponent>();
+    renderer->SetTexture(
+        *EngineZ::ResourceSystem::Instance()->GetTextureMapElementShared(
+            "enemies", 0));
+    renderer->SetPixelSize(100, 100);
 
-        healthComponent = std::make_shared<EngineZ::HealthComponent>(gameObject, 50, 2);
-        // Изменено: передаем raw pointer вместо shared_ptr
-        gameObject->AddComponent(healthComponent.get());
+    auto health = gameObject->AddComponent<HealthComponent>();
+    health->SetHealth(50);
+    CombatSystem::Instance()->RegisterHealthComponent(health);
 
-        LOG_INFO("Enemy created with health component");
-    }
+    auto rigidbody = gameObject->AddComponent<EngineZ::RigidbodyComponent>();
+    rigidbody->SetKinematic(false);
 
-    void Enemy::Attack(Player* player)
-    {
-        if (!player)
-        {
-            LOG_WARN("Attempt to attack null player");
-            return;
-        }
-
-        auto playerHealth = player->GetHealthComponent();
-        if (playerHealth->IsDead())
-        {
-            LOG_WARN("Attempt to attack already dead player");
-            return;
-        }
-
-        LOG_INFO("Enemy attacks player for " + std::to_string(attackDamage) + " damage");
-        playerHealth->TakeDamage(attackDamage);
-    }
-
-    EngineZ::GameObject* Enemy::GetGameObject()
-    {
-        return gameObject;
-    }
+    auto collider =
+        gameObject->AddComponent<EngineZ::SpriteColliderComponent>();
 }
+
+EngineZ::GameObject* Enemy::GetGameObject() const { return gameObject; }
+}  // namespace Roguelike

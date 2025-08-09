@@ -1,28 +1,14 @@
 #pragma once
-#include "CameraComponent.h"
-#include "GameWorld.h"
-#include "SpriteRendererComponent.h"
-#include "RenderSystem.h"
-#include "InputComponent.h"
-#include "GameObject.h"
+#include <Vector.h>
+
 #include "HealthComponent.h"
-#include <memory>
-// Forward declaration
-namespace Roguelike { class Player; }
+namespace Roguelike {
+class Enemy {
+   public:
+    Enemy(const EngineZ::Vector2Df& position);
+    EngineZ::GameObject* GetGameObject() const;
 
-namespace Roguelike
-{
-    class Enemy
-    {
-    public:
-        Enemy();
-        EngineZ::GameObject* GetGameObject();
-        std::shared_ptr<EngineZ::HealthComponent> GetHealthComponent() { return healthComponent; }
-        void Attack(Player* player);
-
-    private:
-        EngineZ::GameObject* gameObject;
-        std::shared_ptr<EngineZ::HealthComponent> healthComponent;
-        int attackDamage = 5;
-    };
-}
+   private:
+    EngineZ::GameObject* gameObject;
+};
+}  // namespace Roguelike
