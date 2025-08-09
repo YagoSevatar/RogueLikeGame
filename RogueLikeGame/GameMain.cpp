@@ -1,35 +1,48 @@
-﻿// ©2023, XYZ School. All rights reserved.
-// Authored by Aleksandr Rybalka (polterageist@gmail.com)
+﻿#include <SFML/Graphics.hpp>
+#include <iostream> 
 
-#include <SFML/Graphics.hpp>
+int main()
+{
+   
+    sf::RenderWindow window(sf::VideoMode(1280, 720), "RogueLike Game");
+    
+   
+    sf::Font font;
+    font.loadFromFile("Resources/Fonts/Roboto-Regular.ttf");
+   
 
-#include "DeveloperLevel.h"
-#include "Engine.h"
-#include "Matrix2D.h"
-#include "Player.h"
-#include "ResourceSystem.h"
+    sf::Text toBeDoneText;
+    toBeDoneText.setFont(font);
+    toBeDoneText.setString("TO BE DONE...");
+    toBeDoneText.setCharacterSize(48);
+    toBeDoneText.setFillColor(sf::Color::White);
+    sf::FloatRect bounds = toBeDoneText.getLocalBounds();
+    toBeDoneText.setOrigin(bounds.width/2, bounds.height/2);
+    toBeDoneText.setPosition(640, 360 - 30); 
 
-using namespace Roguelike;
+    sf::Text hintText("Press Esc to exit", font, 24);
+    hintText.setFillColor(sf::Color::White);
+    hintText.setOrigin(hintText.getLocalBounds().width/2, hintText.getLocalBounds().height/2);
+    hintText.setPosition(640, 360 + 30);
 
-int main() {
-    EngineZ::RenderSystem::Instance()->SetMainWindow(
-        new sf::RenderWindow(sf::VideoMode(1280, 720), "Roguelike"));
+    std::cout << "Entering main loop..." << std::endl;
+    while (window.isOpen())
+    {
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed || 
+               (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape))
+            {
+                window.close();
+            }
+        }
 
-    ResourceSystem::Instance()->LoadTextureMap(
-        "player", "Resources/TextureMaps/Player.png", {48, 63}, 4, false);
-    ResourceSystem::Instance()->LoadTextureMap(
-        "level_floors", "Resources/TextureMaps/Floor.png", {16, 16}, 49, false);
-    ResourceSystem::Instance()->LoadTextureMap(
-        "level_walls", "Resources/TextureMaps/Wall.png", {16, 16}, 48, false);
-    ResourceSystem::Instance()->LoadTextureMap(
-        "enemies", "Resources/TextureMaps/Enemy.png", {48, 63}, 4, false);
-    ResourceSystem::Instance()->LoadSound("music",
-                                          "Resources/Sounds/labyrinth.wav");
-
-    auto developerLevel = std::make_shared<DeveloperLevel>();
-    developerLevel->Start();
-
-    EngineZ::Engine::Instance()->Run();
+        window.clear(sf::Color::Black);
+        window.draw(toBeDoneText);
+        window.draw(hintText);
+        window.display();
+    }
 
     return 0;
 }

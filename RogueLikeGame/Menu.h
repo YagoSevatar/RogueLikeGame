@@ -1,52 +1,54 @@
 #pragma once
-#include <functional>
-#include <list>
-
 #include "SFML/Graphics.hpp"
 #include "Text.h"
+#include <list>
+#include <functional>
 
-namespace Roguelike {
-struct MenuItem {
-    sf::Text text;
-    sf::Text hintText;  // Visible when child item is selected
-    Orientation childrenOrientation = Orientation::Vertical;
-    Alignment childrenAlignment = Alignment::Min;
-    float childrenSpacing;
 
-    sf::Color selectedColor = sf::Color::Yellow;
-    sf::Color deselectedColor = sf::Color::White;
+namespace Roguelike
+{
+	struct MenuItem
+	{
+		sf::Text text;
+		sf::Text hintText; // Visible when child item is selected
+		Orientation childrenOrientation = Orientation::Vertical;
+		Alignment childrenAlignment = Alignment::Min;
+		float childrenSpacing;
 
-    bool isEnabled = true;
-    std::vector<MenuItem> childrens;
+		sf::Color selectedColor = sf::Color::Yellow;
+		sf::Color deselectedColor = sf::Color::White;
 
-    std::function<void(MenuItem& item)> onPressCallback;
+		bool isEnabled = true;
+		std::vector<MenuItem> childrens;
 
-    MenuItem* parent = nullptr;
-};
+		std::function<void(MenuItem& item)> onPressCallback;
 
-class Menu {
-   public:
-    void Init(const MenuItem& item);
+		MenuItem* parent = nullptr;
+	};
 
-    void Update(float deltaTime);
+	class Menu
+	{
+	public:
+		void Init(const MenuItem& item);
 
-    void Draw(sf::RenderWindow& window, sf::Vector2f position,
-              sf::Vector2f origin);
+		void Update(float deltaTime);
 
-    void PressOnSelectedItem();  // press on selected menu item
-    void GoBack();               // go back to previous menu
+		void Draw(sf::RenderWindow& window, sf::Vector2f position, sf::Vector2f origin);
 
-    void SwitchToPreviousMenuItem();
-    void SwitchToNextMenuItem();
+		void PressOnSelectedItem();	// press on selected menu item
+		void GoBack();	// go back to previous menu
+		
+		void SwitchToPreviousMenuItem();
+		void SwitchToNextMenuItem();
 
-    MenuItem& GetCurrentContext();
+		MenuItem& GetCurrentContext();
 
-   private:
-    void InitMenuItem(MenuItem& item);
-    void SelectMenuItem(MenuItem& item);
+	private:
+		void InitMenuItem(MenuItem& item);
+		void SelectMenuItem(MenuItem& item);
 
-   private:
-    MenuItem rootItem;
-    MenuItem* selectedItem = nullptr;
-};
-}  // namespace Roguelike
+	private:
+		MenuItem rootItem;
+		MenuItem* selectedItem = nullptr;
+	};
+}

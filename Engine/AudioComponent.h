@@ -2,28 +2,29 @@
 
 #include <SFML/Audio/Sound.hpp>
 #include <SFML/Audio/SoundBuffer.hpp>
-
 #include "Component.h"
 
-namespace EngineZ {
-class AudioComponent : public Component {
-   public:
-    AudioComponent(GameObject* gameObject);
-    ~AudioComponent();
 
-    void Update(float deltaTime) override;
-    void Render() override;
+namespace EngineZ
+{
+	class AudioComponent : public Component
+	{
+	public:
+		AudioComponent(GameObject* gameObject);
+		~AudioComponent();
 
-    void SetAudio(const sf::SoundBuffer& audio);
-    void SetLoop(bool loop);
+		void Update(float deltaTime) override;
+		void Render() override;
 
-    void SetVolume(float volume);
-    void Play();
-    void Stop();
-    void Pause();
-    void Resume();
+		void SetAudio(const sf::SoundBuffer& audio);
+		void SetLoop(bool loop);
 
-   private:
-    sf::Sound* sound;
-};
-}  // namespace EngineZ
+		void SetVolume(float volume);
+		void Play();
+		void Stop();
+		void Pause();
+		void Resume();
+	private:
+		sf::Sound* sound;
+	};
+}
