@@ -8,28 +8,28 @@ namespace EngineZ
 		transform = gameObject->GetComponent<TransformComponent>();
 	}
 
-	void RigidbodyComponent::Update(float deltaTime)
-	{
-		transform->MoveBy(linearVelocity);
-		transform->RotateBy(angleVelocity);
+	void RigidbodyComponent::Update(float deltaTime) {
+            // Ограничение максимальной скорости
+            float maxSpeed = 300.0f;
+            float currentSpeed = std::sqrt(linearVelocity.x * linearVelocity.x +
+                                           linearVelocity.y * linearVelocity.y);
 
-		linearVelocity = (1.f - linearDamping * deltaTime) * linearVelocity;
-		angleVelocity = (1.f - angleDamping * deltaTime) * angleVelocity;
+            if (currentSpeed > maxSpeed) {
+                linearVelocity.x = linearVelocity.x * maxSpeed / currentSpeed;
+                linearVelocity.y = linearVelocity.y * maxSpeed / currentSpeed;
+            }
 
-		if (linearVelocity.x < 0.001f)
-		{
-			linearVelocity = { 0.f, linearVelocity.y };
-		}
-		if (linearVelocity.y < 0.001f)
-		{
-			linearVelocity = { linearVelocity.x, 0.f };
-		}
+            transform->MoveBy(linearVelocity * deltaTime);
+            transform->RotateBy(angleVelocity * deltaTime);
 
-		if (angleVelocity < 0.001f)
-		{
-			angleVelocity = 0.f;
-		}
-	}
+            linearVelocity =
+                linearVelocity * (1.0f - linearDamping * deltaTime);
+            angleVelocity = angleVelocity * (1.0f - angleDamping * deltaTime);
+
+            if (std::abs(linearVelocity.x) < 0.1f) linearVelocity.x = 0;
+            if (std::abs(linearVelocity.y) < 0.1f) linearVelocity.y = 0;
+            if (std::abs(angleVelocity) < 0.1f) angleVelocity = 0;
+        }
 	void RigidbodyComponent::Render()
 	{
 

@@ -1,45 +1,51 @@
 #include "pch.h"
 #include "MovementComponent.h"
+#include "InputComponent.h"
+#include "TransformComponent.h"
+#include "SpriteAnimationComponent.h"
+#include "Vector.h"
+#include <iostream>
+namespace EngineZ {
+MovementComponent::MovementComponent(GameObject* gameObject)
+    : Component(gameObject) {
+    input = gameObject->GetComponent<InputComponent>();
+    transform = gameObject->GetComponent<TransformComponent>();
+    animationComponent = gameObject->GetComponent<SpriteAnimationComponent>();
 
-EngineZ::MovementComponent::MovementComponent(GameObject* gameObject)
-	: Component(gameObject)
-{
-	input = gameObject->GetComponent<InputComponent>();
-	transform = gameObject->GetComponent<TransformComponent>();
-
-	if (input == nullptr)
-	{
-		std::cout << "Need input component for movement" << std::endl;
-		gameObject->RemoveComponent(this);
-	}
+    if (input == nullptr) {
+        std::cout << "Need input component for movement" << std::endl;
+        gameObject->RemoveComponent(this);
+    }
 }
 
-void EngineZ::MovementComponent::Update(float deltaTime)
-{
-	float xAxis = input->GetHorizontalAxis();
-	float yAxis = input->GetVerticalAxis();
+MovementComponent::~MovementComponent() {}
 
-	transform->MoveBy(speed * deltaTime * Vector2Df{ xAxis, yAxis });
+void MovementComponent::Update(float deltaTime) {
+    float xAxis = input->GetHorizontalAxis();
+    float yAxis = input->GetVerticalAxis();
 
-	acceleration = transform->GetWorldPosition() - previousPosition;
-	previousPosition = transform->GetWorldPosition();
+    transform->MoveBy(speed * deltaTime * Vector2Df{xAxis, -yAxis});
+
+    acceleration = transform->GetWorldPosition() - previousPosition;
+    previousPosition = transform->GetWorldPosition();
+
+    // Управление анимацией
+    if (animationComponent != nullptr) {
+        if (xAxis != 0.0f || yAxis != 0.0f) {
+            animationComponent->StartAnimation("Walk");
+        } else {
+            animationComponent->StartAnimation("Idle");
+        }
+    }
 }
 
-void EngineZ::MovementComponent::Render()
-{
-}
+void MovementComponent::Render() {}
 
-void EngineZ::MovementComponent::SetSpeed(float newSpeed)
-{
-	speed = newSpeed;
-}
+void MovementComponent::SetSpeed(float newSpeed) { speed = newSpeed; }
 
-float EngineZ::MovementComponent::GetSpeed() const
-{
-	return speed;
-}
+float MovementComponent::GetSpeed() const { return speed; }
 
-float EngineZ::MovementComponent::GetAccelerationSquared() const
-{
-	return acceleration.x * acceleration.x + acceleration.y * acceleration.y;
+float MovementComponent::GetAccelerationSquared() const {
+    return acceleration.x * acceleration.x + acceleration.y * acceleration.y;
 }
+}  // namespace EngineZ

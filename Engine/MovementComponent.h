@@ -1,26 +1,31 @@
 #pragma once
-#include "GameObject.h"
-#include "InputComponent.h"
+#include "Component.h"
+#include "Vector.h"
 
-namespace EngineZ
-{
-	class MovementComponent : public Component
-	{
-	public:
-		MovementComponent(GameObject* gameObject);
+namespace EngineZ {
+class InputComponent;
+class TransformComponent;
+class SpriteAnimationComponent;
 
-		void Update(float deltaTime) override;
-		void Render() override;
+class MovementComponent : public Component {
+   public:
+    MovementComponent(GameObject* gameObject);
+    ~MovementComponent();
 
-		void SetSpeed(float newSpeed);
-		float GetSpeed() const;
-		float GetAccelerationSquared() const;
-	private:
-		InputComponent* input;
-		TransformComponent* transform;
+    void Update(float deltaTime) override;
+    void Render() override;
 
-		float speed = 0;
-		Vector2Df previousPosition = { 0, 0 };
-		Vector2Df acceleration = { 0, 0 };
-	};
-}
+    void SetSpeed(float newSpeed);
+    float GetSpeed() const;
+    float GetAccelerationSquared() const;
+
+   private:
+    InputComponent* input;
+    TransformComponent* transform;
+    SpriteAnimationComponent* animationComponent;
+
+    float speed = 0;
+    Vector2Df previousPosition = {0, 0};
+    Vector2Df acceleration = {0, 0};
+};
+}  // namespace EngineZ

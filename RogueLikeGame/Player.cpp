@@ -1,58 +1,91 @@
 #include "Player.h"
 
-#include "CameraComponent.h"
+#include <iostream>
+
+#include "../Engine/GameWorld.h"
+#include "../Engine/InputComponent.h"
+#include "../Engine/MovementComponent.h"
+#include "../Engine/ResourceSystem.h"
+#include "../Engine/RigidbodyComponent.h"
+#include "../Engine/SpriteAnimationComponent.h"
+#include "../Engine/SpriteColliderComponent.h"
+#include "../Engine/SpriteRendererComponent.h"
+#include "ArmorComponent.h"
+#include "AttackComponent.h"
 #include "CombatSystem.h"
 #include "HealthComponent.h"
-#include "InputComponent.h"
-#include "MovementComponent.h"
-#include "ResourceSystem.h"
-#include "RigidbodyComponent.h"
-#include "SpriteColliderComponent.h"
-#include "SpriteDirectionComponent.h"
-#include "SpriteMovementAnimationComponent.h"
-#include "SpriteRendererComponent.h"
-#include "TransformComponent.h"
 
 namespace Roguelike {
-Player::Player(const EngineZ::Vector2Df& position)
-    : gameObject(EngineZ::GameWorld::Instance()->CreateGameObject("Player")) {
+Player::Player(const EngineZ::Vector2Df& position) {
+    gameObject = EngineZ::GameWorld::Instance()->CreateGameObject("Player");
     auto transform = gameObject->GetComponent<EngineZ::TransformComponent>();
     transform->SetWorldPosition(position);
 
+    // Компоненты рендеринга
     auto renderer =
         gameObject->AddComponent<EngineZ::SpriteRendererComponent>();
-    renderer->SetTexture(
-        *EngineZ::ResourceSystem::Instance()->GetTextureMapElementShared(
-            "player", 0));
-    renderer->SetPixelSize(100, 100);
+    auto texture =
+        EngineZ::ResourceSystem::Instance()->GetTextureMapElementShared(
+            "player", 0);
+    if (texture) {
+        renderer->SetTexture(*texture);
+    }
+    renderer->SetPixelSize(64, 64);
 
-    auto camera = gameObject->AddComponent<EngineZ::CameraComponent>();
-    camera->SetWindow(&EngineZ::RenderSystem::Instance()->GetMainWindow());
-    camera->SetBaseResolution(1280, 720);
+    // Анимации
+    auto animationComponent =
+        gameObject->AddComponent<EngineZ::SpriteAnimationComponent>();
 
-    auto input = gameObject->AddComponent<EngineZ::InputComponent>();
+    EngineZ::Animation idleAnimation;
+    idleAnimation.textureMapName = "player";
+    idleAnimation.frameIDs = {0};
+    idleAnimation.time = 0.8f;
+    idleAnimation.isRightDirected = false;
+    idleAnimation.priority = 0;
+    idleAnimation.isLoop = true;
+    animationComponent->AddAnimation("Idle", idleAnimation, true);
 
+    EngineZ::Animation walkAnimation;
+    walkAnimation.textureMapName = "player";
+    walkAnimation.frameIDs = {0};
+    walkAnimation.time = 1.0f;
+    walkAnimation.isRightDirected = false;
+    walkAnimation.priority = 0;
+    walkAnimation.isLoop = true;
+    animationComponent->AddAnimation("Walk", walkAnimation);
+
+    // Компоненты управления
+    gameObject->AddComponent<EngineZ::InputComponent>();
     auto movement = gameObject->AddComponent<EngineZ::MovementComponent>();
-    movement->SetSpeed(400.f);
+    movement->SetSpeed(400.0f);
 
-    auto spriteDirection =
-        gameObject->AddComponent<EngineZ::SpriteDirectionComponent>();
-
-    auto rigidbody = gameObject->AddComponent<EngineZ::RigidbodyComponent>();
-    rigidbody->SetKinematic(false);
-
+    // Физические компоненты
+    gameObject->AddComponent<EngineZ::RigidbodyComponent>();
     auto collider =
         gameObject->AddComponent<EngineZ::SpriteColliderComponent>();
+    collider->SetTrigger(false);
 
-    auto animator =
-        gameObject->AddComponent<EngineZ::SpriteMovementAnimationComponent>();
-    animator->Initialize("player", 6.f);
+    // Компоненты боя
+    health = gameObject->AddComponent<HealthComponent>();
+    armor = gameObject->AddComponent<ArmorComponent>();
+    attack = gameObject->AddComponent<AttackComponent>();
 
-    auto health = gameObject->AddComponent<HealthComponent>();
-    health->SetHealth(100);
+    armor->SetArmor(5);
+    attack->SetDamage(15);
+    attack->SetRange(80.0f);
 
+    // Регистрируем здоровье в системе боя
     CombatSystem::Instance()->RegisterHealthComponent(health);
 }
 
-EngineZ::GameObject* Player::GetGameObject() { return gameObject; }
+void Player::Attack() {
+    if (attack) {
+        attack->Attack();
+    }
+}
+
+void Player::Update(float deltaTime) {
+}
+
+bool Player::IsAlive() const { return health && health->IsAlive(); }
 }  // namespace Roguelike

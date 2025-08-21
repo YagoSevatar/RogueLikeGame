@@ -160,9 +160,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ArmorComponent.cpp" />
+    <ClCompile Include="AttackComponent .cpp" />
+    <ClCompile Include="AttackEffect.cpp" />
     <ClCompile Include="CombatSystem.cpp" />
     <ClCompile Include="DeveloperLevel.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyAIComponent.cpp" />
     <ClCompile Include="Floor.cpp" />
     <ClCompile Include="HealthComponent.cpp" />
     <ClCompile Include="LevelLoader.cpp" />
@@ -170,14 +174,17 @@
     <ClCompile Include="Music.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="GameMain.cpp" />
-    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ArmorComponent.h" />
+    <ClInclude Include="AttackComponent.h" />
+    <ClInclude Include="AttackEffect.h" />
     <ClInclude Include="CombatSystem.h" />
     <ClInclude Include="DeveloperLevel.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyAIComponent.h" />
     <ClInclude Include="Floor.h" />
     <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="LevelLoader.h" />
@@ -186,7 +193,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="randomizer.h" />
     <ClInclude Include="GameSettings.h" />
-    <ClInclude Include="Menu.h" />
+    <ClInclude Include="Scene.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Wall.h" />
   </ItemGroup>

@@ -8,7 +8,7 @@ namespace EngineZ
 	SpriteRendererComponent::SpriteRendererComponent(GameObject* gameObject) : Component(gameObject)
 	{
 		sprite = new sf::Sprite();
-		scale = { 1, -1 };
+		scale = { 1, 1 };
 		sprite->setScale({ 1, -1 });
 		transform = gameObject->GetComponent<TransformComponent>();
 	}

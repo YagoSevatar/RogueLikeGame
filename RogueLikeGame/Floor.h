@@ -1,10 +1,10 @@
 #pragma once
 
-#include <GameWorld.h>
-#include <ResourceSystem.h>
-#include <SpriteRendererComponent.h>
+#include <../Engine/GameWorld.h>
+#include <../Engine/ResourceSystem.h>
+#include <../Engine/SpriteRendererComponent.h>
 
-#include "GameObject.h"
+#include "../Engine/GameObject.h"
 
 namespace Roguelike {
 class Floor {

@@ -1,7 +1,6 @@
 #pragma once
-
-#include <AudioComponent.h>
-#include <GameObject.h>
+#include "../Engine/GameObject.h"
+#include "../Engine/AudioComponent.h"
 #include <GameWorld.h>
 #include <ResourceSystem.h>
 
