@@ -8,20 +8,20 @@
 namespace Roguelike {
 AttackEffect::AttackEffect(EngineZ::GameObject* owner, float duration)
     : totalDuration(duration) {
-    // Создаем объект для эффекта
+    // Создание игрового объекта для визуального эффекта атаки
     effectObject =
         EngineZ::GameWorld::Instance()->CreateGameObject("AttackEffect");
     auto transform = effectObject->GetComponent<EngineZ::TransformComponent>();
     auto renderer =
         effectObject->AddComponent<EngineZ::SpriteRendererComponent>();
 
-    // Устанавливаем позицию
+    // Позиционирование эффекта относительно владельца
     auto ownerTransform = owner->GetComponent<EngineZ::TransformComponent>();
     if (ownerTransform) {
         transform->SetWorldPosition(ownerTransform->GetWorldPosition());
     }
 
-    // Загружаем текстуру
+    // Загрузка и настройка текстуры эффекта
     auto texture =
         EngineZ::ResourceSystem::Instance()->GetTextureShared("attack_effect");
     if (texture) {
@@ -31,13 +31,25 @@ AttackEffect::AttackEffect(EngineZ::GameObject* owner, float duration)
 }
 
 void AttackEffect::Update(float deltaTime) {
+    // Обновление таймера эффекта атаки
     currentTime += deltaTime;
 
-    // Анимация - увеличиваем размер
+    // Визуальные преобразования эффекта со временем
     if (auto transform =
             effectObject->GetComponent<EngineZ::TransformComponent>()) {
-        float scale = 1.0f + (currentTime / totalDuration) * 2.0f;
+        float progress = currentTime / totalDuration;
+        float scale = 1.0f + progress * 2.0f;  // Увеличение размера
+        float alpha = 1.0f - progress;         // Уменьшение прозрачности
+
         transform->SetLocalScale({scale, scale});
+
+        // Обновление цвета с учетом прозрачности
+        if (auto renderer =
+                effectObject
+                    ->GetComponent<EngineZ::SpriteRendererComponent>()) {
+            sf::Color color = sf::Color::Red;
+            color.a = static_cast<sf::Uint8>(alpha * 255);
+        }
     }
 }
 

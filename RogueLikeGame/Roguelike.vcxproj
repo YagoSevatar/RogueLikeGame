@@ -160,40 +160,55 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ArmorBarComponent.cpp" />
     <ClCompile Include="ArmorComponent.cpp" />
-    <ClCompile Include="AttackComponent .cpp" />
+    <ClCompile Include="AttackComponent.cpp" />
     <ClCompile Include="AttackEffect.cpp" />
     <ClCompile Include="CombatSystem.cpp" />
     <ClCompile Include="DeveloperLevel.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyAIComponent.cpp" />
+    <ClCompile Include="ExitTrigger.cpp" />
     <ClCompile Include="Floor.cpp" />
+    <ClCompile Include="GameLevelManager.cpp" />
+    <ClCompile Include="HealthBarComponent.cpp" />
     <ClCompile Include="HealthComponent.cpp" />
+    <ClCompile Include="Level1.cpp" />
     <ClCompile Include="LevelLoader.cpp" />
     <ClCompile Include="MazeGenerator.cpp" />
     <ClCompile Include="Music.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="GameMain.cpp" />
+    <ClCompile Include="PlayerAttackComponent.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ArmorBarComponent.h" />
     <ClInclude Include="ArmorComponent.h" />
     <ClInclude Include="AttackComponent.h" />
     <ClInclude Include="AttackEffect.h" />
+    <ClInclude Include="BaseLevel.h" />
     <ClInclude Include="CombatSystem.h" />
     <ClInclude Include="DeveloperLevel.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyAIComponent.h" />
+    <ClInclude Include="ExitTrigger.h" />
     <ClInclude Include="Floor.h" />
+    <ClInclude Include="GameLevelManager.h" />
+    <ClInclude Include="HealthBarComponent.h" />
     <ClInclude Include="HealthComponent.h" />
+    <ClInclude Include="Level1.h" />
+    <ClInclude Include="LevelController.h" />
     <ClInclude Include="LevelLoader.h" />
+    <ClInclude Include="LevelManager.h" />
+    <ClInclude Include="LevelObserver.h" />
     <ClInclude Include="MazeGenerator.h" />
     <ClInclude Include="Music.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerAttackComponent.h" />
     <ClInclude Include="randomizer.h" />
     <ClInclude Include="GameSettings.h" />
-    <ClInclude Include="Scene.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Wall.h" />
   </ItemGroup>

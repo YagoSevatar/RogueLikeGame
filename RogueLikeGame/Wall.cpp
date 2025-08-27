@@ -12,17 +12,19 @@ Wall::Wall(const EngineZ::Vector2Df position, int textureMapIndex) {
     auto transform = gameObject->GetComponent<EngineZ::TransformComponent>();
     transform->SetWorldPosition(position);
 
+    // Визуальное представление стены
     auto renderer =
         gameObject->AddComponent<EngineZ::SpriteRendererComponent>();
     auto texture =
         EngineZ::ResourceSystem::Instance()->GetTextureMapElementShared(
             "level_walls", textureMapIndex);
+
     if (texture) {
         renderer->SetTexture(*texture);
     }
     renderer->SetPixelSize(128, 128);
 
-    // Физические компоненты
+    // Физические свойства стены 
     auto rigidbody = gameObject->AddComponent<EngineZ::RigidbodyComponent>();
     rigidbody->SetKinematic(true);
     auto collider =

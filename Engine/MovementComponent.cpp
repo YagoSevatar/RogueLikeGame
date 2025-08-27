@@ -12,10 +12,6 @@ MovementComponent::MovementComponent(GameObject* gameObject)
     transform = gameObject->GetComponent<TransformComponent>();
     animationComponent = gameObject->GetComponent<SpriteAnimationComponent>();
 
-    if (input == nullptr) {
-        std::cout << "Need input component for movement" << std::endl;
-        gameObject->RemoveComponent(this);
-    }
 }
 
 MovementComponent::~MovementComponent() {}

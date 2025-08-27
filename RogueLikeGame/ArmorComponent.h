@@ -8,11 +8,12 @@ class ArmorComponent : public EngineZ::Component {
     void SetArmor(int armor);
     int GetArmor() const;
     int ReduceDamage(int damage);
-
-    void Update(float deltaTime) override {}
-    void Render() override {}
+    int GetMaxArmor() const { return maxArmor; }
+    void Update(float deltaTime) override;
+    void Render() override;
 
    private:
     int armorValue = 0;
+    int maxArmor = 100;
 };
 }  // namespace Roguelike

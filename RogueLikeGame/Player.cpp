@@ -1,5 +1,6 @@
 #include "Player.h"
 
+#include <cmath>
 #include <iostream>
 
 #include "../Engine/GameWorld.h"
@@ -10,82 +11,91 @@
 #include "../Engine/SpriteAnimationComponent.h"
 #include "../Engine/SpriteColliderComponent.h"
 #include "../Engine/SpriteRendererComponent.h"
+#include "../Engine/TransformComponent.h"
+#include "ArmorBarComponent.h"
 #include "ArmorComponent.h"
 #include "AttackComponent.h"
 #include "CombatSystem.h"
+#include "DeveloperLevel.h"
+#include "Enemy.h"
+#include "HealthBarComponent.h"
 #include "HealthComponent.h"
 
 namespace Roguelike {
-Player::Player(const EngineZ::Vector2Df& position) {
+Player::Player(const EngineZ::Vector2Df& position, DeveloperLevel* level)
+    : level(level) {
     gameObject = EngineZ::GameWorld::Instance()->CreateGameObject("Player");
     auto transform = gameObject->GetComponent<EngineZ::TransformComponent>();
     transform->SetWorldPosition(position);
 
-    // Компоненты рендеринга
-    auto renderer =
-        gameObject->AddComponent<EngineZ::SpriteRendererComponent>();
-    auto texture =
-        EngineZ::ResourceSystem::Instance()->GetTextureMapElementShared(
-            "player", 0);
+    // Основные компоненты игрока
+    auto renderer = gameObject->AddComponent<EngineZ::SpriteRendererComponent>();
+    auto texture = EngineZ::ResourceSystem::Instance()->GetTextureMapElementShared("player", 0);
     if (texture) {
         renderer->SetTexture(*texture);
     }
     renderer->SetPixelSize(64, 64);
 
-    // Анимации
-    auto animationComponent =
-        gameObject->AddComponent<EngineZ::SpriteAnimationComponent>();
-
-    EngineZ::Animation idleAnimation;
-    idleAnimation.textureMapName = "player";
-    idleAnimation.frameIDs = {0};
-    idleAnimation.time = 0.8f;
-    idleAnimation.isRightDirected = false;
-    idleAnimation.priority = 0;
-    idleAnimation.isLoop = true;
-    animationComponent->AddAnimation("Idle", idleAnimation, true);
-
-    EngineZ::Animation walkAnimation;
-    walkAnimation.textureMapName = "player";
-    walkAnimation.frameIDs = {0};
-    walkAnimation.time = 1.0f;
-    walkAnimation.isRightDirected = false;
-    walkAnimation.priority = 0;
-    walkAnimation.isLoop = true;
-    animationComponent->AddAnimation("Walk", walkAnimation);
-
-    // Компоненты управления
-    gameObject->AddComponent<EngineZ::InputComponent>();
+    inputComponent = gameObject->AddComponent<EngineZ::InputComponent>();
     auto movement = gameObject->AddComponent<EngineZ::MovementComponent>();
     movement->SetSpeed(400.0f);
 
-    // Физические компоненты
+    // Физика и коллизии
     gameObject->AddComponent<EngineZ::RigidbodyComponent>();
-    auto collider =
-        gameObject->AddComponent<EngineZ::SpriteColliderComponent>();
+    auto collider = gameObject->AddComponent<EngineZ::SpriteColliderComponent>();
     collider->SetTrigger(false);
 
-    // Компоненты боя
+    // Система здоровья и брони
     health = gameObject->AddComponent<HealthComponent>();
     armor = gameObject->AddComponent<ArmorComponent>();
-    attack = gameObject->AddComponent<AttackComponent>();
+    attackComponent = gameObject->AddComponent<PlayerAttackComponent>();
 
+    // Начальные значения характеристик
+    health->SetHealth(100);
     armor->SetArmor(5);
-    attack->SetDamage(15);
-    attack->SetRange(80.0f);
+    attackComponent->SetDamage(15);
+    attackComponent->SetRange(1650.0f);
 
-    // Регистрируем здоровье в системе боя
     CombatSystem::Instance()->RegisterHealthComponent(health);
+
+    // Интерфейсные элементы
+    auto healthBar = gameObject->AddComponent<HealthBarComponent>();
+    healthBar->SetOffset(-40.0f);
+    healthBar->SetSize(60.0f, 6.0f);
+
+    auto armorBar = gameObject->AddComponent<ArmorBarComponent>();
+    armorBar->SetOffset(-50.0f);
+    armorBar->SetSize(60.0f, 6.0f);
 }
 
-void Player::Attack() {
-    if (attack) {
-        attack->Attack();
+void Player::HandleInput(float deltaTime) {
+    if (!inputComponent) return;
+
+    bool attackPressed = inputComponent->IsAttackPressed();
+
+    if (attackPressed && currentAttackCooldown <= 0) {
+        Attack();
     }
 }
 
 void Player::Update(float deltaTime) {
+    HandleInput(deltaTime);
+
+    if (currentAttackCooldown > 0) {
+        currentAttackCooldown -= deltaTime;
+    }
+}
+
+void Player::Attack() {
+    if (currentAttackCooldown > 0 || !attackComponent) {
+        return;
+    }
+
+    attackComponent->Attack();
+    currentAttackCooldown = attackCooldown;
 }
 
 bool Player::IsAlive() const { return health && health->IsAlive(); }
+
+EngineZ::GameObject* Player::GetGameObject() { return gameObject; }
 }  // namespace Roguelike

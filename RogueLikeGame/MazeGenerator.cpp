@@ -14,26 +14,27 @@
 namespace Roguelike {
 MazeGenerator::MazeGenerator(int width, int height, DeveloperLevel* level)
     : width(width), height(height), level(level) {
-    grid.resize(height, std::vector<int>(width, 1));  // 1 = стена, 0 = проход
+    grid.resize(height, std::vector<int>(width, 1));
     rng.seed(std::chrono::system_clock::now().time_since_epoch().count());
 }
 
 void MazeGenerator::Generate() {
-    // Заполняем все клетки стенами
+    // Инициализация сетки стенами
     for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
-            grid[y][x] = 1;  // Стена
+            grid[y][x] = 1;
         }
     }
 
     int startX = 1;
     int startY = 1;
 
+    // Алгоритм генерации лабиринта (алгоритм backtracking)
     std::stack<std::pair<int, int>> stack;
     stack.push({startX, startY});
-    grid[startY][startX] = 0; 
+    grid[startY][startX] = 0;
 
-    // Направления: вверх, вправо, вниз, влево
+    // Направления для генерации: вверх, вправо, вниз, влево
     int dx[] = {0, 2, 0, -2};
     int dy[] = {-2, 0, 2, 0};
 
@@ -42,7 +43,7 @@ void MazeGenerator::Generate() {
         int x = current.first;
         int y = current.second;
 
-        // Получаем все возможные направления
+        // Поиск возможных направлений для продолжения генерации
         std::vector<int> directions;
         for (int i = 0; i < 4; i++) {
             int nx = x + dx[i];
@@ -55,14 +56,14 @@ void MazeGenerator::Generate() {
         }
 
         if (!directions.empty()) {
-            // Выбираем случайное направление
+            // Случайный выбор направления
             std::uniform_int_distribution<int> dist(0, directions.size() - 1);
             int dir = directions[dist(rng)];
 
             int nx = x + dx[dir];
             int ny = y + dy[dir];
 
-            // Убираем стену между текущей и следующей клеткой
+            // Создание прохода между клетками
             grid[y + dy[dir] / 2][x + dx[dir] / 2] = 0;
             grid[ny][nx] = 0;
 
@@ -72,13 +73,18 @@ void MazeGenerator::Generate() {
         }
     }
 
-    // Добавляем вход и выход
-    grid[1][0] = 0;                   // Вход
-    grid[height - 2][width - 1] = 0;  // Выход
+    // Создание входа и выхода из лабиринта
+    grid[1][0] = 0;
+    grid[height - 2][width - 1] = 0;
+
+    // Дополнительные проходы для выхода
+    grid[13][13] = 0;
+    grid[13][14] = 0;
+    grid[12][13] = 0;
 }
 void MazeGenerator::AddFrontierCells(
     int x, int y, std::vector<std::pair<int, int>>& frontier) {
-    // Проверяем все четыре направления
+    // Проверка четырех направлений для добавления в frontier
     int dx[] = {0, 2, 0, -2};
     int dy[] = {2, 0, -2, 0};
 
@@ -86,15 +92,16 @@ void MazeGenerator::AddFrontierCells(
         int nx = x + dx[i];
         int ny = y + dy[i];
 
+        // Добавление клетки в frontier если она внутри границ и является стеной
         if (nx > 0 && nx < width - 1 && ny > 0 && ny < height - 1 &&
             grid[ny][nx]) {
-            grid[ny][nx] = false;  // Делаем проход
+            grid[ny][nx] = false;
             frontier.push_back({nx, ny});
         }
     }
 }
 void MazeGenerator::ConnectToPassage(int x, int y) {
-    // Список возможных направлений для соединения
+    // Поиск соседних проходов для соединения
     std::vector<std::pair<int, int>> directions;
     int dx[] = {0, 2, 0, -2};
     int dy[] = {2, 0, -2, 0};
@@ -103,17 +110,16 @@ void MazeGenerator::ConnectToPassage(int x, int y) {
         int nx = x + dx[i];
         int ny = y + dy[i];
 
-        // Проверяем, является ли клетка проходом
+        // Проверка что соседняя клетка является проходом
         if (nx > 0 && nx < width - 1 && ny > 0 && ny < height - 1 &&
             !grid[ny][nx]) {
             directions.push_back({dx[i] / 2, dy[i] / 2});
         }
     }
 
+    // Случайное соединение с найденным проходом
     if (!directions.empty()) {
-        // Выбираем случайное направление
         auto dir = directions[rand() % directions.size()];
-        // Делаем проход между клетками
         grid[y + dir.second][x + dir.first] = false;
     }
 }

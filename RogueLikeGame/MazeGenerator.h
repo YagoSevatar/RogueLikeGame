@@ -10,6 +10,7 @@
        public:
         MazeGenerator(int width, int height, DeveloperLevel* level);
         void Generate();
+        MazeGenerator() : width(0), height(0), level(nullptr) {}
         const std::vector<std::vector<int>>& GetGrid() const { return grid; } 
         void ConnectToPassage(int x, int y);
         void AddFrontierCells(int x, int y,std::vector<std::pair<int, int>>& frontier);

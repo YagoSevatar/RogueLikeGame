@@ -7,10 +7,10 @@ class AttackEffect {
     AttackEffect(EngineZ::GameObject* owner, float duration);
     void Update(float deltaTime);
     bool IsFinished() const;
-    EngineZ::GameObject* GetEffectObject() const;  // Добавляем геттер
+    EngineZ::GameObject* GetEffectObject() const;
 
    private:
-    EngineZ::GameObject* effectObject;  // Делаем приватным
+    EngineZ::GameObject* effectObject;
     float totalDuration;
     float currentTime = 0.0f;
 };

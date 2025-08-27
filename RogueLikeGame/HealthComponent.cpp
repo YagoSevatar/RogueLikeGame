@@ -10,14 +10,15 @@ void HealthComponent::SetHealth(int health) {
     currentHealth = health;
     isDead = (health <= 0);
 }
-
+void HealthComponent::Update(float deltaTime) {}
+void HealthComponent::Render() {}
 void HealthComponent::TakeDamage(int amount) {
     if (isDead) return;
 
     currentHealth = std::max(0, currentHealth - amount);
+
     if (currentHealth <= 0) {
         isDead = true;
-        std::cout << "Entity died!" << std::endl;
     }
 }
 

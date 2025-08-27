@@ -10,12 +10,13 @@ class HealthComponent : public EngineZ::Component {
     bool IsAlive() const;
     bool IsDead() const;
     int GetHealth() const;
-
-    void Update(float deltaTime) override {}
-    void Render() override {}
+    int GetMaxHealth() const { return maxHealth; }
+    void Update(float deltaTime) override;
+    void Render() override;
 
    private:
     int currentHealth = 100;
+    int maxHealth = 100;
     bool isDead = false;
 };
 }  // namespace Roguelike

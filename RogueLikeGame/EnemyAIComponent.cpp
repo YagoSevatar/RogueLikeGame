@@ -6,7 +6,9 @@
 #include "../Engine/GameObject.h"
 #include "../Engine/RigidbodyComponent.h"
 #include "../Engine/TransformComponent.h"
+#include "ArmorComponent.h"
 #include "AttackComponent.h"
+#include "HealthComponent.h"
 
 namespace Roguelike {
 EnemyAIComponent::EnemyAIComponent(EngineZ::GameObject* gameObject)
@@ -14,6 +16,10 @@ EnemyAIComponent::EnemyAIComponent(EngineZ::GameObject* gameObject)
 
 void EnemyAIComponent::Update(float deltaTime) {
     if (!target) return;
+
+    if (attackCooldown > 0) {
+        attackCooldown -= deltaTime;
+    }
 
     auto myTransform = gameObject->GetComponent<EngineZ::TransformComponent>();
     auto targetTransform = target->GetComponent<EngineZ::TransformComponent>();
@@ -29,27 +35,34 @@ void EnemyAIComponent::Update(float deltaTime) {
     float dy = targetPos.y - myPos.y;
     float distance = std::sqrt(dx * dx + dy * dy);
 
-    // Нормализуем направление
-    if (distance > 0) {
-        dx /= distance;
-        dy /= distance;
-    }
+    // Преследование игрока
+    if (distance <= visionRange) {
+        if (distance > 0) {
+            dx /= distance;
+            dy /= distance;
+        }
 
-    // Если в зоне атаки - атакуем
-    if (distance <= attackRange && attack && attack->CanAttack()) {
-        rigidbody->SetLinearVelocity({0, 0});
-        attack->SetTarget(target);
-        attack->Attack();
-    }
-    // Если в зоне преследования - движемся к цели
-    else if (distance <= visionRange) {
-        // Плавное движение
-        rigidbody->SetLinearVelocity(
-            {dx * movementSpeed * (distance / visionRange),
-             dy * movementSpeed * (distance / visionRange)});
-    }
-    // Если цель вне зоны видимости - патрулируем или стоим
-    else {
+        // Атака при близком расстоянии
+        if (distance <= attackRange && attack && attackCooldown <= 0) {
+            rigidbody->SetLinearVelocity({0, 0});
+            auto targetHealth = target->GetComponent<HealthComponent>();
+            auto targetArmor = target->GetComponent<ArmorComponent>();
+
+            if (targetHealth) {
+                int finalDamage = attack->GetDamage();
+                if (targetArmor) {
+                    finalDamage = targetArmor->ReduceDamage(finalDamage);
+                }
+                targetHealth->TakeDamage(finalDamage);
+                attackCooldown = attackCooldownTime;
+            }
+        } else {
+            // Движение к игроку
+            rigidbody->SetLinearVelocity(
+                {dx * movementSpeed * (distance / visionRange),
+                 dy * movementSpeed * (distance / visionRange)});
+        }
+    } else {
         rigidbody->SetLinearVelocity({0, 0});
     }
 }
