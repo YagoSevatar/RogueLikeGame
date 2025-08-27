@@ -15,7 +15,7 @@ PhysicsSystem (физика)
 RenderSystem (графика)
 
 ## Установка и запуск
-Вариент 1:
+
 1. Клонируйте репозиторий:
 
 2. Откройте Game.sln в Visual Studio
