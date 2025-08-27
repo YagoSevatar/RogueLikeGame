@@ -17,7 +17,9 @@ class GameWorld {
     GameObject* CreateGameObject(std::string name);
     void DestroyGameObject(GameObject* gameObject);
     void Clear();
-
+    const std::vector<GameObject*>& GetAllGameObjects() const {
+        return gameObjects;
+    }
     void Print() const;
 
    private:
@@ -28,7 +30,7 @@ class GameWorld {
     GameWorld& operator=(GameWorld const&) = delete;
 
     float fixedCounter = 0.f;
-
+   
     std::vector<GameObject*> gameObjects = {};
     std::vector<GameObject*> markedToDestroyGameObjects = {};
 

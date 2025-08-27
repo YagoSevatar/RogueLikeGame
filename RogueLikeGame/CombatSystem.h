@@ -1,14 +1,15 @@
 #pragma once
 #include <vector>
 
-#include "HealthComponent.h"
-
 namespace Roguelike {
+class HealthComponent;
+
 class CombatSystem {
    public:
     static CombatSystem* Instance();
     void Update();
     void RegisterHealthComponent(HealthComponent* healthComponent);
+    void UnregisterHealthComponent(HealthComponent* healthComponent);
 
    private:
     CombatSystem() = default;

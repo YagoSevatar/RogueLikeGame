@@ -160,79 +160,61 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Application.cpp" />
-    <ClCompile Include="Ball.cpp" />
-    <ClCompile Include="Block.cpp" />
-    <ClCompile Include="BlockFactory.cpp" />
-    <ClCompile Include="Bonus.cpp" />
+    <ClCompile Include="ArmorBarComponent.cpp" />
+    <ClCompile Include="ArmorComponent.cpp" />
+    <ClCompile Include="AttackComponent.cpp" />
+    <ClCompile Include="AttackEffect.cpp" />
     <ClCompile Include="CombatSystem.cpp" />
     <ClCompile Include="DeveloperLevel.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyAIComponent.cpp" />
+    <ClCompile Include="ExitTrigger.cpp" />
     <ClCompile Include="Floor.cpp" />
-    <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="GameState.cpp" />
-    <ClCompile Include="GameStateData.cpp" />
-    <ClCompile Include="GameStateGameWin.cpp" />
+    <ClCompile Include="GameLevelManager.cpp" />
+    <ClCompile Include="HealthBarComponent.cpp" />
     <ClCompile Include="HealthComponent.cpp" />
+    <ClCompile Include="Level1.cpp" />
     <ClCompile Include="LevelLoader.cpp" />
     <ClCompile Include="MazeGenerator.cpp" />
     <ClCompile Include="Music.cpp" />
-    <ClCompile Include="Platform.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Sprite.cpp" />
-    <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameMain.cpp" />
-    <ClCompile Include="GameStatePauseMenu.cpp" />
-    <ClCompile Include="GameStateGameOver.cpp" />
-    <ClCompile Include="GameStateMainMenu.cpp" />
-    <ClCompile Include="GameStatePlaying.cpp" />
-    <ClCompile Include="GameStateRecords.cpp" />
-    <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="PlayerAttackComponent.cpp" />
     <ClCompile Include="Text.cpp" />
-    <ClCompile Include="ThreeHitBlock.cpp" />
     <ClCompile Include="Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Application.h" />
-    <ClInclude Include="Ball.h" />
-    <ClInclude Include="Block.h" />
-    <ClInclude Include="BlockFactory.h" />
-    <ClInclude Include="Bonus.h" />
+    <ClInclude Include="ArmorBarComponent.h" />
+    <ClInclude Include="ArmorComponent.h" />
+    <ClInclude Include="AttackComponent.h" />
+    <ClInclude Include="AttackEffect.h" />
+    <ClInclude Include="BaseLevel.h" />
     <ClInclude Include="CombatSystem.h" />
     <ClInclude Include="DeveloperLevel.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyAIComponent.h" />
+    <ClInclude Include="ExitTrigger.h" />
     <ClInclude Include="Floor.h" />
-    <ClInclude Include="GameObject.h" />
-    <ClInclude Include="GameState.h" />
-    <ClInclude Include="GameStateData.h" />
-    <ClInclude Include="GameStateGameWin.h" />
-    <ClInclude Include="Collidable.h" />
+    <ClInclude Include="GameLevelManager.h" />
+    <ClInclude Include="HealthBarComponent.h" />
     <ClInclude Include="HealthComponent.h" />
-    <ClInclude Include="IDelayedAction.h" />
-    <ClInclude Include="IObserver.h" />
+    <ClInclude Include="Level1.h" />
+    <ClInclude Include="LevelController.h" />
     <ClInclude Include="LevelLoader.h" />
+    <ClInclude Include="LevelManager.h" />
+    <ClInclude Include="LevelObserver.h" />
     <ClInclude Include="MazeGenerator.h" />
     <ClInclude Include="Music.h" />
-    <ClInclude Include="Platform.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerAttackComponent.h" />
     <ClInclude Include="randomizer.h" />
-    <ClInclude Include="Sprite.h" />
-    <ClInclude Include="Game.h" />
     <ClInclude Include="GameSettings.h" />
-    <ClInclude Include="GameStatePauseMenu.h" />
-    <ClInclude Include="GameStateGameOver.h" />
-    <ClInclude Include="GameStateMainMenu.h" />
-    <ClInclude Include="GameStatePlaying.h" />
-    <ClInclude Include="GameStateRecords.h" />
-    <ClInclude Include="Menu.h" />
     <ClInclude Include="Text.h" />
-    <ClInclude Include="ThreeHitBlock.h" />
-    <ClInclude Include="Vector.h" />
     <ClInclude Include="Wall.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Engine\XYZEngine.vcxproj">
-      <Project>{0785589b-6e7e-4d86-9dbe-ce7aa50d6b3f}</Project>
+    <ProjectReference Include="..\Engine\Engine.vcxproj">
+      <Project>{185e481c-2f4f-4cae-a2c9-b493f41add47}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

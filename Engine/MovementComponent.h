@@ -1,11 +1,16 @@
 #pragma once
-#include "GameObject.h"
-#include "InputComponent.h"
+#include "Component.h"
+#include "Vector.h"
 
 namespace EngineZ {
+class InputComponent;
+class TransformComponent;
+class SpriteAnimationComponent;
+
 class MovementComponent : public Component {
    public:
     MovementComponent(GameObject* gameObject);
+    ~MovementComponent();
 
     void Update(float deltaTime) override;
     void Render() override;
@@ -17,6 +22,7 @@ class MovementComponent : public Component {
    private:
     InputComponent* input;
     TransformComponent* transform;
+    SpriteAnimationComponent* animationComponent;
 
     float speed = 0;
     Vector2Df previousPosition = {0, 0};

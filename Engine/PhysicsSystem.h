@@ -1,33 +1,33 @@
 #pragma once
 
-#include <iostream>
 #include <map>
-
+#include <iostream>
 #include "ColliderComponent.h"
 #include "RigidbodyComponent.h"
 #include "Vector.h"
 
-namespace EngineZ {
-class PhysicsSystem {
-   public:
-    static PhysicsSystem* Instance();
+namespace EngineZ
+{
+	class PhysicsSystem
+	{
+	public:
+		static PhysicsSystem* Instance();
 
-    void Update();
+		void Update();
 
-    float GetFixedDeltaTime() const;
-    void Subscribe(ColliderComponent* collider);
-    void Unsubscribe(ColliderComponent* collider);
+		float GetFixedDeltaTime() const;
+		void Subscribe(ColliderComponent* collider);
+		void Unsubscribe(ColliderComponent* collider);
+	private:
+		PhysicsSystem() {}
+		~PhysicsSystem() {}
 
-   private:
-    PhysicsSystem() {}
-    ~PhysicsSystem() {}
+		PhysicsSystem(PhysicsSystem const&) = delete;
+		PhysicsSystem& operator= (PhysicsSystem const&) = delete;
 
-    PhysicsSystem(PhysicsSystem const&) = delete;
-    PhysicsSystem& operator=(PhysicsSystem const&) = delete;
+		std::vector<ColliderComponent*> colliders;
+		std::map<ColliderComponent*, ColliderComponent*> triggersEnteredPair;
 
-    std::vector<ColliderComponent*> colliders;
-    std::map<ColliderComponent*, ColliderComponent*> triggersEnteredPair;
-
-    float fixedDeltaTime = 0.02f;
-};
-}  // namespace EngineZ
+		float fixedDeltaTime = 0.02f;
+	};
+}

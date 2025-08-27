@@ -1,15 +1,15 @@
 #pragma once
+#include <../Engine/GameWorld.h>
+#include <../Engine/ResourceSystem.h>
+#include <../Engine/SpriteRendererComponent.h>
 
-#include <GameWorld.h>
-#include <ResourceSystem.h>
-#include <SpriteRendererComponent.h>
-
-#include "GameObject.h"
+#include "../Engine/GameObject.h"
 
 namespace Roguelike {
 class Floor {
    public:
-    Floor(const EngineZ::Vector2Df& position, int textureMapIndex);
+    Floor(const EngineZ::Vector2Df& position, int textureMapIndex,
+          const sf::Color& color = sf::Color::White);
 
    private:
     EngineZ::GameObject* gameObject;

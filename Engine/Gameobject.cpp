@@ -1,6 +1,6 @@
+#include "pch.h"
 #include "GameObject.h"
 
-#include "pch.h"
 
 namespace EngineZ {
 GameObject::GameObject() {
@@ -35,8 +35,35 @@ void GameObject::Print(int depth) const {
 }
 
 void GameObject::Update(float deltaTime) {
-    for (auto& component : components) {
-        component->Update(deltaTime);
+    for (auto it = components.begin(); it != components.end();) {
+        if (*it == nullptr) {
+            it = components.erase(it);
+            continue;
+        }
+
+        try {
+            (*it)->Update(deltaTime);
+            ++it;
+        } catch (...) {
+            std::cout << "Error updating component: " << *it << std::endl;
+            it = components.erase(it);
+        }
+    }
+
+    // Обновляем детей
+    for (auto it = children.begin(); it != children.end();) {
+        if (*it == nullptr) {
+            it = children.erase(it);
+            continue;
+        }
+
+        try {
+            (*it)->Update(deltaTime);
+            ++it;
+        } catch (...) {
+            std::cout << "Error updating child: " << *it << std::endl;
+            it = children.erase(it);
+        }
     }
 }
 void GameObject::Render() {

@@ -2,87 +2,138 @@
 
 #include <cstdlib>
 #include <ctime>
-
+#include <iostream>
+#include <stack>
+#include <chrono>
+#include <random>
 #include "DeveloperLevel.h"
+#include "Floor.h"
+#include "Wall.h"
+#include "../Engine/Vector.h"
 
 namespace Roguelike {
-// Constructor: Initializes the maze generator with the given dimensions and
-// level reference.
 MazeGenerator::MazeGenerator(int width, int height, DeveloperLevel* level)
     : width(width), height(height), level(level) {
-    // Resize the grid to match the maze dimensions and initialize all cells as
-    // unvisited (false).
-    grid.resize(height, std::vector<bool>(width, false));
+    grid.resize(height, std::vector<int>(width, 1));
+    rng.seed(std::chrono::system_clock::now().time_since_epoch().count());
 }
 
-// Generate: Creates a maze using the Depth-First Search (DFS) algorithm.
 void MazeGenerator::Generate() {
-    // Seed the random number generator for consistent randomness.
-    std::srand(std::time(nullptr));
+    // Инициализация сетки стенами
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            grid[y][x] = 1;
+        }
+    }
 
-    // Start from a random cell in the grid.
-    int startX = std::rand() % width;
-    int startY = std::rand() % height;
+    int startX = 1;
+    int startY = 1;
 
-    // Use a stack to keep track of visited cells during DFS.
+    // Алгоритм генерации лабиринта (алгоритм backtracking)
     std::stack<std::pair<int, int>> stack;
     stack.push({startX, startY});
-    grid[startY][startX] = true;  // Mark the starting cell as visited.
+    grid[startY][startX] = 0;
 
-    // Continue until the stack is empty (all cells are processed).
+    // Направления для генерации: вверх, вправо, вниз, влево
+    int dx[] = {0, 2, 0, -2};
+    int dy[] = {-2, 0, 2, 0};
+
     while (!stack.empty()) {
-        // Get the current cell from the top of the stack.
-        auto [x, y] = stack.top();
-        stack.pop();
+        auto current = stack.top();
+        int x = current.first;
+        int y = current.second;
 
-        // Get all available directions (unvisited neighboring cells) from the
-        // current cell.
-        std::vector<std::pair<int, int>> directions =
-            GetAvailableDirections(x, y);
+        // Поиск возможных направлений для продолжения генерации
+        std::vector<int> directions;
+        for (int i = 0; i < 4; i++) {
+            int nx = x + dx[i];
+            int ny = y + dy[i];
 
-        // If there are available directions, process them.
+            if (nx > 0 && nx < width - 1 && ny > 0 && ny < height - 1 &&
+                grid[ny][nx] == 1) {
+                directions.push_back(i);
+            }
+        }
+
         if (!directions.empty()) {
-            // Push the current cell back onto the stack to revisit later.
-            stack.push({x, y});
+            // Случайный выбор направления
+            std::uniform_int_distribution<int> dist(0, directions.size() - 1);
+            int dir = directions[dist(rng)];
 
-            // Randomly select one of the available directions.
-            std::pair<int, int> dir =
-                directions[std::rand() % directions.size()];
-            int nx = x + dir.first;
-            int ny = y + dir.second;
+            int nx = x + dx[dir];
+            int ny = y + dy[dir];
 
-            // Remove the wall between the current cell and the selected
-            // neighbor.
-            RemoveWall(x, y, nx, ny);
+            // Создание прохода между клетками
+            grid[y + dy[dir] / 2][x + dx[dir] / 2] = 0;
+            grid[ny][nx] = 0;
 
-            // Mark the neighbor as visited and push it onto the stack for
-            // further exploration.
-            grid[ny][nx] = true;
             stack.push({nx, ny});
+        } else {
+            stack.pop();
+        }
+    }
+
+    // Создание входа и выхода из лабиринта
+    grid[1][0] = 0;
+    grid[height - 2][width - 1] = 0;
+
+    // Дополнительные проходы для выхода
+    grid[13][13] = 0;
+    grid[13][14] = 0;
+    grid[12][13] = 0;
+}
+void MazeGenerator::AddFrontierCells(
+    int x, int y, std::vector<std::pair<int, int>>& frontier) {
+    // Проверка четырех направлений для добавления в frontier
+    int dx[] = {0, 2, 0, -2};
+    int dy[] = {2, 0, -2, 0};
+
+    for (int i = 0; i < 4; i++) {
+        int nx = x + dx[i];
+        int ny = y + dy[i];
+
+        // Добавление клетки в frontier если она внутри границ и является стеной
+        if (nx > 0 && nx < width - 1 && ny > 0 && ny < height - 1 &&
+            grid[ny][nx]) {
+            grid[ny][nx] = false;
+            frontier.push_back({nx, ny});
         }
     }
 }
+void MazeGenerator::ConnectToPassage(int x, int y) {
+    // Поиск соседних проходов для соединения
+    std::vector<std::pair<int, int>> directions;
+    int dx[] = {0, 2, 0, -2};
+    int dy[] = {2, 0, -2, 0};
 
-// GetAvailableDirections: Returns a list of valid, unvisited neighboring cells.
+    for (int i = 0; i < 4; i++) {
+        int nx = x + dx[i];
+        int ny = y + dy[i];
+
+        // Проверка что соседняя клетка является проходом
+        if (nx > 0 && nx < width - 1 && ny > 0 && ny < height - 1 &&
+            !grid[ny][nx]) {
+            directions.push_back({dx[i] / 2, dy[i] / 2});
+        }
+    }
+
+    // Случайное соединение с найденным проходом
+    if (!directions.empty()) {
+        auto dir = directions[rand() % directions.size()];
+        grid[y + dir.second][x + dir.first] = false;
+    }
+}
 std::vector<std::pair<int, int>> MazeGenerator::GetAvailableDirections(int x,
                                                                        int y) {
-    // Define possible directions: up, down, left, right (2 cells away to leave
-    // space for walls).
     std::vector<std::pair<int, int>> directions = {
-        {0, -2},  // Up
-        {0, 2},   // Down
-        {-2, 0},  // Left
-        {2, 0}    // Right
-    };
+        {0, -2}, {0, 2}, {-2, 0}, {2, 0}};
 
     std::vector<std::pair<int, int>> available;
 
-    // Check each direction to see if it leads to a valid, unvisited cell.
     for (const auto& dir : directions) {
         int nx = x + dir.first;
         int ny = y + dir.second;
 
-        // Ensure the neighbor is within bounds and unvisited.
         if (nx >= 0 && nx < width && ny >= 0 && ny < height && !grid[ny][nx]) {
             available.push_back(dir);
         }
@@ -91,23 +142,22 @@ std::vector<std::pair<int, int>> MazeGenerator::GetAvailableDirections(int x,
     return available;
 }
 
-// RemoveWall: Removes the wall between two cells and adds floors and walls to
-// the level.
 void MazeGenerator::RemoveWall(int x1, int y1, int x2, int y2) {
-    // Calculate the position of the wall between the two cells.
     int wallX = (x1 + x2) / 2;
     int wallY = (y1 + y2) / 2;
 
-    // Add floors to the current cell and the neighboring cell.
+    // Создаем пол в клетках
     level->floors.push_back(
         std::make_unique<Floor>(EngineZ::Vector2Df{x1 * 128.f, y1 * 128.f}, 0));
     level->floors.push_back(
         std::make_unique<Floor>(EngineZ::Vector2Df{x2 * 128.f, y2 * 128.f}, 0));
 
-    // Add a wall at the midpoint if the cells are not directly adjacent.
+    // Создаем стену между клетками, если это необходимо
     if (wallX != x1 || wallY != y1) {
         level->walls.push_back(std::make_unique<Wall>(
             EngineZ::Vector2Df{wallX * 128.f, wallY * 128.f}, 14));
+
+      
     }
 }
 }  // namespace Roguelike
