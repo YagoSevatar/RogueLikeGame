@@ -171913,6 +171913,7 @@
 [INFO] Move left
 [INFO] Move left
 [INFO] Move left
+<<<<<<< HEAD
 [INFO] Program was started!
 [INFO] Move left
 [INFO] Move left
@@ -173987,3 +173988,5 @@
 [INFO] Move backward
 [INFO] Move backward
 [INFO] Move backward
+=======
+>>>>>>> 40cd62b9959a8b2b4df986c6c569dd43d3aeaf78
